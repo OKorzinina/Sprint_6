@@ -70,7 +70,7 @@ class OrderPage(BasePage):
         self.send_deliver_to_deliver_order_field(text['delivery_date'])
         self.period_time()
         self.select_color_scooter()
-        self.send_comment_to_comment_field(text[]) 
+        self.send_comment_to_comment_field(text['comment'])  #self.send_comment_to_comment_field(text[]) 
         self.click_order_button()
 
     @allure.step('Клик на кнопку Нет')
