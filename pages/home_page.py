@@ -24,16 +24,15 @@ class HomePageHeader(BasePage):
 
     @allure.step('Заполнение формы номера заказа')
     def send_number_order_to_track_field(self, number):
-        self.status_order_click()
         self.send_keys_to_field(HomePageHeaderLocators.number_order_field, number)
 
     @allure.step('Нажатие на кнопку Go!')
     def go_button_click(self):
         self.click_button(HomePageHeaderLocators.go_button)
 
-    @allure.step('Заполнение формы номера заказа и клик на кнопку Go!')
+    @allure.step('Проверить статус заказа с номером: "{number}"') 
     def check_order_status(self, number):
-        self.status_order_click()
+        self.status_order_click() 
         self.send_number_order_to_track_field(number)
         self.go_button_click()
 
@@ -48,22 +47,23 @@ class HomePage(BasePage):
     def accept_cookie_home_page(self):
         self.click_button(HomePageLocators.accept_cookies_button)
 
-    @allure.step('Скролл и клик на кнопку Заказать')
+    @allure.step('Прокрутить до кнопки Заказать и нажать её')
     def scroll_and_click_on_the_order_button(self):
         self.scroll_to_locator(HomePageLocators.order_button)
         self.click_button(HomePageLocators.order_button)
 
-    @allure.step('Переход к списку вопросов')
+    @allure.step('Прокрутить страницу до раздела "Вопросы о важном"')
     def scroll_to_questions(self):
         self.scroll_to_locator(HomePageLocators.questions_title)
 
-    @allure.step('Клик на вопрос')
+    @allure.step('Кликнуть на кнопку вопроса по локатору: {question_button_locator}') 
     def click_question_button(self, question_button_locator):
-        self.scroll_to_questions()
+        self.scroll_to_questions() 
         self.click_button(question_button_locator)
 
-    @allure.step('Получение текста вопроса')
+    @allure.step('Получить текст ответа на вопрос. Локатор вопроса: {question_button_locator}, локатор ответа: {question_text_locator}') 
     def get_text_question(self, question_button_locator, question_text_locator):
-        self.click_question_button(question_button_locator)
+        self.click_question_button(question_button_locator) 
         text_question = self.get_text_locator(question_text_locator)
         return text_question
+
