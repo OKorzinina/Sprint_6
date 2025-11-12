@@ -36,3 +36,4 @@ class TestOrderPage:
 
         with allure.step("Проверить, что окно подтверждения заказа появилось"):
             assert order_page.check_order_title(), "Окно подтверждения заказа не появилось"
+
