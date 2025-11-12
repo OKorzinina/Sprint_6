@@ -1,8 +1,9 @@
 import allure
 import pytest
+import os
 from selenium import webdriver
 from selenium.webdriver.firefox.service import Service as FirefoxService
-from selenium.webdriver.firefox.options import Options as FirefoxOptions 
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from webdriver_manager.firefox import GeckoDriverManager
 
 from helps.data import Urls
@@ -12,9 +13,14 @@ from helps.data import Urls
 def driver():
     geckodriver_path = GeckoDriverManager().install()
     service = FirefoxService(executable_path=geckodriver_path)
-
     firefox_options = FirefoxOptions()
-    firefox_binary_location = r"C:\Users\Olga\AppData\Local\Mozilla Firefox\firefox.exe" 
+
+    firefox_binary_location = os.environ.get("FIREFOX_BINARY_LOCATION")
+
+    if not firefox_binary_location:
+        raise EnvironmentError("Переменная окружения FIREFOX_BINARY_LOCATION не установлена. "
+                               "Пожалуйста, укажите путь к исполняемому файлу Firefox.")
+
     firefox_options.binary_location = firefox_binary_location
     driver = webdriver.Firefox(service=service, options=firefox_options)
     driver.set_window_size(1920, 1080)
@@ -31,3 +37,5 @@ def pytest_make_parametrize_id(val):
             return f"Question {val[0][1].split('-')[-1]}"
         return repr(val)
     return repr(val)
+
+
