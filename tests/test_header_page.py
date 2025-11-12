@@ -1,7 +1,7 @@
-import time
 import allure
 import pytest
-
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from helps.data import Questions, Urls
 from locators.home_page_locators import HomePageLocators
 from pages.home_page import HomePage, HomePageHeader
@@ -20,6 +20,9 @@ class TestMainPage:
 
         with allure.step("Кликнуть по логотипу 'Самокат'"):
             header_page.scooter_logo_click()
+
+        with allure.step(f"Ожидание, что текущий URL станет {Urls.QA_SCOOTER_URL}"):
+            WebDriverWait(driver, 10).until(EC.url_to_be(Urls.QA_SCOOTER_URL))
 
         current_url = header_page.get_current_url()
         title_is_displayed = header_page.check_order_title()
@@ -42,8 +45,9 @@ class TestMainPage:
         with allure.step("Переключиться на новую вкладку"):
             header_page.go_to_new_tab()
 
-        with allure.step("Пауза для загрузки страницы Яндекс.Дзен"):
-            time.sleep(3) # Возможно, стоит заменить на явное ожидание элемента, если это возможно
+       
+        with allure.step(f"Ожидание, что текущий URL станет {Urls.DZEN_URL}"):
+            WebDriverWait(driver, 10).until(EC.url_to_be(Urls.DZEN_URL))
 
         current_url = header_page.get_current_url()
 
@@ -66,3 +70,4 @@ class TestMainPage:
 
         with allure.step(f"Сравнить полученный текст ('{text}') с ожидаемым ('{expected_question_text}')"):
             assert text == expected_question_text, "Текст ответа не соответствует ожидаемому"
+
